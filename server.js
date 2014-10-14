@@ -17,11 +17,63 @@
 	app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
 	app.use(methodOverride());
 
-//model
+// model
 	var Rx = mongoose.model('Rx', {
 		text : String
 	});
 
-//server
+// routes
+	app.get('/api/rxs', function(req, res) {
+
+		// use mongoose to get all rxs in the database
+		Rx.find(function(err, rxs) {
+
+			// if there is an error retrieving, send the error. nothing after res.send(err) will execute
+			if (err)
+				res.send(err)
+
+			res.json(rxs); // return all todos in JSON format
+		});
+	});
+
+	// create rx and send back all rxs after creation
+	app.post('/api/rxs', function(req, res) {
+
+		// create a rx, information comes from AJAX request from Angular
+		Todo.create({
+			text : req.body.text,
+			done : false
+		}, function(err, rx) {
+			if (err)
+				res.send(err);
+
+			// get and return all the rxs after you create another
+			Rx.find(function(err, rxs) {
+				if (err)
+					res.send(err)
+				res.json(rxs);
+			});
+		});
+
+	});
+
+	// delete a todo
+	app.delete('/api/rxs/:rx_id', function(req, res) {
+		Rx.remove({
+			_id : req.params.rx_id
+		}, function(err, rx) {
+			if (err)
+				res.send(err);
+
+			// get and return all the todos after you create another
+			Rx.find(function(err, todos) {
+				if (err)
+					res.send(err)
+				res.json(rxs);
+			});
+		});
+	});
+
+// server
 	app.listen(8080);
-	console.log("App listening on port 8080");
+	console.log("App listening on port 8080, son! Check it!");
