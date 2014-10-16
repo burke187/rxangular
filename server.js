@@ -18,7 +18,7 @@
 	app.use(methodOverride());
 
 // model
-	var Rx = mongoose.model('Rx', {
+	var Rx = mongoose.model('rx', {
 		text : String
 	});
 
@@ -40,7 +40,7 @@
 	app.post('/api/rxs', function(req, res) {
 
 		// create a rx, information comes from AJAX request from Angular
-		Todo.create({
+		Rx.create({
 			text : req.body.text,
 			done : false
 		}, function(err, rx) {
@@ -72,6 +72,11 @@
 				res.json(rxs);
 			});
 		});
+	});
+
+// app
+	app.get('*', function(req, res) {
+		res.sendfile('./public/index.html'); // load the single view
 	});
 
 // server

@@ -1,0 +1,62 @@
+<!doctype html>
+
+<!-- ASSIGN OUR ANGULAR MODULE -->
+<html ng-app="rx">
+<head>
+	<!-- META -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
+
+	<title>Prescription Manager</title>
+
+	<!-- SCROLLS -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
+	<style>
+		html 					{ overflow-y:scroll; }
+		body 					{ padding-top:50px; }
+		#rx-list 				{ margin-bottom:30px; }
+	</style>
+</head>
+<body ng-controller="mainController">
+	<div class="container">
+
+		<!-- HEADER AND Rx COUNT -->
+		<div class="jumbotron text-center">
+			<h1>Manage Prescriptions!<span class="label label-info">{{ rxs.length }}</span></h1>
+		</div>
+
+		<!-- Rx LIST -->
+		<div id="rx-list" class="row">
+			<div class="col-sm-4 col-sm-offset-4">
+
+				<!-- LOOP OVER THE RXS IN $scope.rxs -->
+				<div  ng-repeat="rx in rxs">
+					<label>
+						<!-- <input type="checkbox" ng-click="deleteRx(rx._id)"> --> {{ rx.text }}
+						<button type="submit" class="btn btn-danger btn-lg" ng-click="deleteRx(rx._id)">Delete</button>
+					</label>
+				</div>
+
+			</div>
+		</div>
+
+		<!-- FORM TO CREATE Rxs -->
+		<div id="rx-form" class="row">
+			<div class="col-sm-8 col-sm-offset-2 text-center">
+				<form>
+					<div class="form-group">
+
+						<!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
+						<input type="text" class="form-control input-lg text-center" placeholder="What's your prescription?" ng-model="formData.text">
+					</div>
+
+					<!-- createRx() WILL CREATE NEW Rxs -->
+					<button type="submit" class="btn btn-primary btn-lg" ng-click="createRx()">Add</button>
+				</form>
+			</div>
+		</div>
+
+	</div>
+
+</body>
+</html>
